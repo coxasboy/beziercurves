@@ -54,8 +54,10 @@ public class BezierDrawer implements Drawer {
 	private LineDrawer getSmaller(List<LineDrawer> list){
 		LineDrawer smaller = null;
 		for (LineDrawer lineDrawer : list) {
+			System.out.println("Item: " + lineDrawer.getLineSize());
 			if(smaller==null || lineDrawer.getLineSize()<smaller.getLineSize()){
 				smaller = lineDrawer;
+				System.out.println("Smaller: " + smaller.getLineSize());
 			}
 		}
 		return smaller;
@@ -98,6 +100,8 @@ public class BezierDrawer implements Drawer {
 				primitives.add(new LineDrawer(points[i], points[i+1]));
 			}
 		}
+		
+		System.out.println();
 		return primitives;
 	}
 

@@ -26,7 +26,7 @@ public class LineDrawer implements Drawer{
 	}
 	
 	public double getLineSize(){
-		return Math.sqrt(Math.pow(start.getX(), 2) + Math.pow(end.getY(), 2));
+		return lineWalker.getHipotenusa(start, end);
 	}
 	
 	public void setPass(Double pass){
@@ -73,6 +73,7 @@ public class LineDrawer implements Drawer{
 	
 	public Point getPoint(int ticker){
 		Point point = lineWalker.getPoint(start, end, ticker);
+		System.out.println("X: " + point.x + " - Y: " + point.y);
 		return point;
 	}
 	

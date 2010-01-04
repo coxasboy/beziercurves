@@ -81,18 +81,23 @@ public class LineWalker {
 		
 		catetoAdjacente = -start.getX()+end.getX();
 				
-		double catetoOposto = 0;
-		
-		catetoOposto = -start.getY()+end.getY();
-		
-		double hipotenusa = Math.sqrt(Math.pow(catetoAdjacente, 2) + Math.pow(catetoOposto, 2));
+		double hipotenusa = getHipotenusa(start, end);
 								
 		return catetoAdjacente/hipotenusa;
 	}
 	
 	private Double getYCoeficient(Point start, Point end){
 				
-				
+		double catetoOposto = 0;
+		
+		catetoOposto = -start.getY()+end.getY();
+		
+		double hipotenusa = getHipotenusa(start, end);
+								
+		return catetoOposto/hipotenusa;
+	}
+	
+	public Double getHipotenusa(Point start, Point end){
 		double catetoAdjacente = 0; 
 		
 		catetoAdjacente = -start.getX()+end.getX();
@@ -102,8 +107,8 @@ public class LineWalker {
 		catetoOposto = -start.getY()+end.getY();
 		
 		double hipotenusa = Math.sqrt(Math.pow(catetoAdjacente, 2) + Math.pow(catetoOposto, 2));
-								
-		return catetoOposto/hipotenusa;
+	
+		return hipotenusa;
 	}
 
 	public Double getPass() {

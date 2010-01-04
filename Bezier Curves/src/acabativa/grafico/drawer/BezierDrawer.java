@@ -100,8 +100,6 @@ public class BezierDrawer implements Drawer {
 				primitives.add(new LineDrawer(points[i], points[i+1]));
 			}
 		}
-		
-		System.out.println();
 		return primitives;
 	}
 

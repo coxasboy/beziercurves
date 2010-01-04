@@ -37,7 +37,7 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	public AnimationBezier() {
 		getNewBezierInstance();
 		
-		timer = new Timer(75, this);
+		timer = new Timer(40, this);
 		timer.setInitialDelay(200);
 		timer.start();		
 	}

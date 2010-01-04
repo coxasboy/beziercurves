@@ -33,6 +33,10 @@ public class LineDrawer implements Drawer{
 		System.out.println("settingPass to: " + pass);
 		lineWalker.setPass(pass);
 	}
+	
+	public double getPass(){
+		return lineWalker.getPass();
+	}
 		
 	public LineDrawer (LineDrawer drawerOne, LineDrawer drawerTwo, int ticker){
 		this(drawerOne.getPoint(ticker), drawerTwo.getPoint(ticker));
@@ -58,12 +62,14 @@ public class LineDrawer implements Drawer{
 	
 	private Shape getShape(Point point){
 		if(defaultShape.equals(Rectangle.class.getClass())){
-			return new Rectangle((int)point.getX(),(int)point.getY(),5,5);
+			return new Rectangle((int)point.getX(),(int)point.getY(),1,1);
 		}
 		else{
 			return null;
 		}
 	}
+	
+	
 	
 	public Point getPoint(int ticker){
 		Point point = lineWalker.getPoint(start, end, ticker);

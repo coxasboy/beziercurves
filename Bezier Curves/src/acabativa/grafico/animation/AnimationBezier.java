@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +20,7 @@ import acabativa.grafico.drawer.BezierDrawer;
 import acabativa.grafico.drawer.Drawer;
 import acabativa.grafico.drawer.SceneryDrawer;
 
-public class AnimationBezier extends JPanel implements ActionListener {
+public class AnimationBezier extends JPanel implements ActionListener, MouseListener {
 
 	public static final int MAX_WIDHT = 700;
 	public static final int MAX_HEIGHT = 700;
@@ -28,11 +30,13 @@ public class AnimationBezier extends JPanel implements ActionListener {
 	Drawer scenarieDrawer = new SceneryDrawer(MAX_WIDHT, MAX_HEIGHT);
 	Drawer bezierLineDrawer = null;
 	List<Rectangle> path = new ArrayList<Rectangle>();
+	boolean running = true;
+	boolean inFrame = true;
 	
 	public AnimationBezier() {
 		getNewBezierInstance();
 		
-		timer = new Timer(30, this);
+		timer = new Timer(75, this);
 		timer.setInitialDelay(200);
 		timer.start();		
 	}
@@ -62,6 +66,7 @@ public class AnimationBezier extends JPanel implements ActionListener {
 			path.addAll(((BezierDrawer)bezierLineDrawer).getPath());
 			getNewBezierInstance();
 			ticker = 0;
+			
 		}
 		
 		drawPath(g2d);		
@@ -74,17 +79,53 @@ public class AnimationBezier extends JPanel implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		ticker += 1;
-		repaint();
+		if(running){
+			ticker += 1;
+			repaint();
+		}
 	}
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Curva de Bezier");
-		frame.add(new AnimationBezier());
+		AnimationBezier animation = new AnimationBezier();
+		frame.add(animation);
+		frame.addMouseListener(animation);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(850, 750);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if(inFrame){
+			running = !running;
+			System.out.println(running?"GO!":"STOP!");
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		inFrame = true;
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		inFrame = false;
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

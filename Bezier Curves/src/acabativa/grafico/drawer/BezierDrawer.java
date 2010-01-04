@@ -22,8 +22,9 @@ public class BezierDrawer implements Drawer {
 	
 	private void generateList(int ticker){
 		listDrawers.clear();
-		List<LineDrawer> list = getPrimitives(points);
-		listDrawers.add(list);		
+		List<LineDrawer> list = loadPrimitives(points);
+		calibratePrimitives();
+		listDrawers.add(list);
 		while(true){
 			list = generateSubList(list, ticker);
 			if(list==null || list.size()==0){
@@ -33,6 +34,41 @@ public class BezierDrawer implements Drawer {
 				listDrawers.add(list);
 			}
 		}
+	}
+	
+	private double getPassToThisGeneration(int generation){
+		double passPrimitives = getBigger(primitives).getPass();
+		for (int i = 0; i < generation; i++) {
+			passPrimitives = passPrimitives/(1.5);
+		}
+		return passPrimitives;
+	}
+	
+	private void calibratePrimitives(){
+		LineDrawer smaller = getSmaller(primitives);
+		for (LineDrawer lineDrawer : primitives) {
+			lineDrawer.setPass(lineDrawer.getLineSize()/smaller.getLineSize());
+		}
+	}
+	
+	private LineDrawer getSmaller(List<LineDrawer> list){
+		LineDrawer smaller = null;
+		for (LineDrawer lineDrawer : list) {
+			if(smaller==null || lineDrawer.getLineSize()<smaller.getLineSize()){
+				smaller = lineDrawer;
+			}
+		}
+		return smaller;
+	}
+	
+	private LineDrawer getBigger(List<LineDrawer> list){
+		LineDrawer bigger = null;
+		for (LineDrawer lineDrawer : list) {
+			if(bigger==null || lineDrawer.getLineSize()>bigger.getLineSize()){
+				bigger = lineDrawer;
+			}
+		}
+		return bigger;
 	}
 	
 	public List<Rectangle> getPath() {
@@ -45,14 +81,15 @@ public class BezierDrawer implements Drawer {
 		int numberOfLines = drawers.size() - 1;
 		List<LineDrawer> ret = new ArrayList<LineDrawer>();
 		for (int i = 0; i < numberOfLines; i++) {
-			ret.add(new LineDrawer(
+			LineDrawer newGeneration = new LineDrawer(
 					(LineDrawer) drawers.get(i),
-					(LineDrawer) drawers.get(i+1), ticker));
+					(LineDrawer) drawers.get(i+1), ticker);
+			ret.add(newGeneration);
 		}
 		return ret;
 	}
 	
-	private List<LineDrawer> getPrimitives(Point ... points){
+	private List<LineDrawer> loadPrimitives(Point ... points){
 		
 		if(primitives==null || primitives.size()==0){
 			primitives = new ArrayList<LineDrawer>();

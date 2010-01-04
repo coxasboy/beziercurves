@@ -23,7 +23,7 @@ public class BezierDrawer implements Drawer {
 	private void generateList(int ticker){
 		listDrawers.clear();
 		List<LineDrawer> list = loadPrimitives(points);
-		calibratePrimitives();
+		calibrate(primitives);
 		listDrawers.add(list);
 		while(true){
 			list = generateSubList(list, ticker);
@@ -36,17 +36,18 @@ public class BezierDrawer implements Drawer {
 		}
 	}
 	
-	private double getPassToThisGeneration(int generation){
-		double passPrimitives = getBigger(primitives).getPass();
-		for (int i = 0; i < generation; i++) {
-			passPrimitives = passPrimitives/(1.5);
+	@SuppressWarnings("unused")
+	private List<LineDrawer> getUniqueList(List<List<LineDrawer>> listOfLists){
+		List<LineDrawer> ret = new ArrayList<LineDrawer>();
+		for (List<LineDrawer> list : listOfLists) {
+			ret.addAll(list);
 		}
-		return passPrimitives;
+		return ret;
 	}
 	
-	private void calibratePrimitives(){
-		LineDrawer smaller = getSmaller(primitives);
-		for (LineDrawer lineDrawer : primitives) {
+	private void calibrate(List<LineDrawer> drawers){
+		LineDrawer smaller = getSmaller(drawers);
+		for (LineDrawer lineDrawer : drawers) {
 			lineDrawer.setPass(lineDrawer.getLineSize()/smaller.getLineSize());
 		}
 	}
@@ -54,15 +55,14 @@ public class BezierDrawer implements Drawer {
 	private LineDrawer getSmaller(List<LineDrawer> list){
 		LineDrawer smaller = null;
 		for (LineDrawer lineDrawer : list) {
-			System.out.println("Item: " + lineDrawer.getLineSize());
 			if(smaller==null || lineDrawer.getLineSize()<smaller.getLineSize()){
 				smaller = lineDrawer;
-				System.out.println("Smaller: " + smaller.getLineSize());
 			}
 		}
 		return smaller;
 	}
 	
+	@SuppressWarnings("unused")
 	private LineDrawer getBigger(List<LineDrawer> list){
 		LineDrawer bigger = null;
 		for (LineDrawer lineDrawer : list) {
@@ -105,6 +105,7 @@ public class BezierDrawer implements Drawer {
 		return primitives;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void draw(Graphics2D g2d, int ticker)
 			throws IllegalArgumentException {

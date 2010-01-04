@@ -30,7 +30,6 @@ public class LineDrawer implements Drawer{
 	}
 	
 	public void setPass(Double pass){
-		System.out.println("settingPass to: " + pass);
 		lineWalker.setPass(pass);
 	}
 	
@@ -73,7 +72,6 @@ public class LineDrawer implements Drawer{
 	
 	public Point getPoint(int ticker){
 		Point point = lineWalker.getPoint(start, end, ticker);
-		System.out.println("X: " + point.x + " - Y: " + point.y);
 		return point;
 	}
 	

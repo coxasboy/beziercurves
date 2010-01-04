@@ -22,6 +22,7 @@ import acabativa.grafico.drawer.SceneryDrawer;
 
 public class AnimationBezier extends JPanel implements ActionListener, MouseListener {
 
+	private static final long serialVersionUID = 1L;
 	public static final int MAX_WIDHT = 700;
 	public static final int MAX_HEIGHT = 700;
 	

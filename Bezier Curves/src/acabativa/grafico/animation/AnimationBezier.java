@@ -3,7 +3,7 @@ package acabativa.grafico.animation;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -31,7 +31,7 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	int ticker = 0;
 	Drawer scenarieDrawer = new SceneryDrawer(MAX_WIDHT, MAX_HEIGHT);
 	Drawer bezierLineDrawer = null;
-	List<Rectangle> path = new ArrayList<Rectangle>();
+	List<Shape> path = new ArrayList<Shape>();
 	boolean running = true;
 	boolean inFrame = true;
 	
@@ -85,8 +85,8 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	}	
 
 	public void drawPath(Graphics2D g2d) {
-		for (Rectangle rectangle : path) {
-			g2d.draw(rectangle);
+		for (Shape shape : path) {
+			g2d.draw(shape);
 		}
 	}
 	

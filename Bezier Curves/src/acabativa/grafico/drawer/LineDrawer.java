@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
@@ -14,7 +15,8 @@ public class LineDrawer implements Drawer{
 	private Point start;
 	private Point end;
 	LineWalker lineWalker = new LineWalker(1d);
-	private Class<?> defaultShape = Rectangle.class.getClass();
+	@SuppressWarnings("unused")
+	private Class<?> defaultShape = Ellipse2D.class.getClass();
 		
 	public LineDrawer(Point start, Point end) {
 		super();
@@ -60,8 +62,12 @@ public class LineDrawer implements Drawer{
 	}
 	
 	private Shape getShape(Point point){
-		if(defaultShape.equals(Rectangle.class.getClass())){
-			return new Rectangle((int)point.getX(),(int)point.getY(),1,1);
+//		if(defaultShape.equals(Rectangle.class.getClass())){
+//			return new Rectangle((int)point.getX(),(int)point.getY(),1,1);
+//		}
+//		else 
+		if(true){
+			return new Ellipse2D.Double(point.getX(), point.getY(), 1, 1);
 		}
 		else{
 			return null;

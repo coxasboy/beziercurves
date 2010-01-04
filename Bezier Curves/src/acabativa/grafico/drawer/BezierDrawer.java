@@ -3,13 +3,13 @@ package acabativa.grafico.drawer;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BezierDrawer implements Drawer {
 
-	List<Rectangle> path = new ArrayList<Rectangle>();
+	List<Shape> path = new ArrayList<Shape>();
 	List<LineDrawer> primitives = new ArrayList<LineDrawer>();
 	List<List<LineDrawer>> listDrawers = new ArrayList<List<LineDrawer>>();
 	Point [] points = null;
@@ -86,7 +86,7 @@ public class BezierDrawer implements Drawer {
 		return bigger;
 	}
 	
-	public List<Rectangle> getPath() {
+	public List<? extends Shape> getPath() {
 		return path;
 	}
 	
@@ -127,7 +127,7 @@ public class BezierDrawer implements Drawer {
 		List<LineDrawer> lastList = (List<LineDrawer>) getLast(listDrawers);
 		LineDrawer lastDrawer = (LineDrawer) getLast(lastList);
 		
-		path.add((Rectangle) lastDrawer.getShape(ticker));
+		path.add(lastDrawer.getShape(ticker));
 
 		drawPath(g2d);
 	}
@@ -137,8 +137,8 @@ public class BezierDrawer implements Drawer {
 	}
 
 	private void drawPath(Graphics2D g2d) {
-		for (Rectangle rectangle : path) {
-			g2d.draw(rectangle);
+		for (Shape shape : path) {
+			g2d.draw(shape);
 		}
 	}
 

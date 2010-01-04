@@ -1,5 +1,6 @@
 package acabativa.grafico.drawer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -12,6 +13,18 @@ public class BezierDrawer implements Drawer {
 	List<LineDrawer> primitives = new ArrayList<LineDrawer>();
 	List<List<LineDrawer>> listDrawers = new ArrayList<List<LineDrawer>>();
 	Point [] points = null;
+	List<Color> pallete = null;
+	
+	{
+		pallete = new ArrayList<Color>();
+		pallete.add(Color.GREEN);
+		pallete.add(Color.CYAN);
+		pallete.add(Color.BLUE);
+		pallete.add(Color.RED);
+		pallete.add(Color.MAGENTA);
+		pallete.add(Color.BLACK);
+		pallete.add(Color.ORANGE);
+	}
 
 	int maxWidht = 0;
 	int maxHeight = 0;
@@ -130,11 +143,14 @@ public class BezierDrawer implements Drawer {
 	}
 
 	private void drawList(Graphics2D g2d, int ticker) {
+		int cont = 0;
 		for (List<LineDrawer> drawers : listDrawers) {
+			g2d.setColor(pallete.get(cont++%7));
 			for (LineDrawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, ticker);
 			}
 		}
+		g2d.setColor(Color.BLACK);
 	}
 
 }

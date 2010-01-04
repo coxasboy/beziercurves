@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -44,13 +45,23 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	
 	private void getNewBezierInstance(){
 		Random r = new Random();
+		List<Point> points = new ArrayList<Point>();
 		
-		Point a = new Point(r.nextInt(350), 350+r.nextInt(350));
-		Point b = new Point(r.nextInt(350), r.nextInt(350));
-		Point c = new Point(350+r.nextInt(350), r.nextInt(350));
-		Point d = new Point(350+r.nextInt(350), 350+r.nextInt(350));
+		points.add(new Point(r.nextInt(350), 350+r.nextInt(350)));
+		points.add(new Point(r.nextInt(350), r.nextInt(350)));
+		points.add(new Point(350+r.nextInt(350), r.nextInt(350)));
+		points.add(new Point(350+r.nextInt(350), 350+r.nextInt(350)));
+		points.add(new Point(350+r.nextInt(350), 350+r.nextInt(350)));		
 		
-		bezierLineDrawer = new BezierDrawer(a,b,c,d);
+		Collections.shuffle(points);
+		
+		bezierLineDrawer = new BezierDrawer(
+				points.get(0),
+				points.get(1),
+				points.get(2),
+				points.get(3),
+				points.get(4)
+				);
 		
 	}
 

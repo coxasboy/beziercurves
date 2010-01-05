@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BezierDrawer implements Drawer {
+	
+	private static final int MAX_TICKER = 100;
 
 	List<Shape> path = new ArrayList<Shape>();
 	List<LineDrawer> primitives = new ArrayList<LineDrawer>();
@@ -33,13 +35,12 @@ public class BezierDrawer implements Drawer {
 		this.points = points;		
 	}
 	
-	private void generateList(int ticker){
+	private void generateList(double bezierCoeficient){
 		listDrawers.clear();
 		List<LineDrawer> list = loadPrimitives(points);
-		calibrate(primitives);
 		listDrawers.add(list);
 		while(true){
-			list = generateSubList(list, ticker);
+			list = generateSubList(list, bezierCoeficient);
 			if(list==null || list.size()==0){
 				break;
 			}
@@ -104,6 +105,18 @@ public class BezierDrawer implements Drawer {
 		return ret;
 	}
 	
+	private List<LineDrawer> generateSubList(List<LineDrawer> drawers, double bezierCoeficient){
+		int numberOfLines = drawers.size() - 1;
+		List<LineDrawer> ret = new ArrayList<LineDrawer>();
+		for (int i = 0; i < numberOfLines; i++) {
+			LineDrawer newGeneration = new LineDrawer(
+					(LineDrawer) drawers.get(i),
+					(LineDrawer) drawers.get(i+1), bezierCoeficient);
+			ret.add(newGeneration);
+		}
+		return ret;
+	}
+	
 	private List<LineDrawer> loadPrimitives(Point ... points){
 		
 		if(primitives==null || primitives.size()==0){
@@ -120,15 +133,30 @@ public class BezierDrawer implements Drawer {
 	@Override
 	public void draw(Graphics2D g2d, int ticker)
 			throws IllegalArgumentException {
-		generateList(ticker);
-
-		drawList(g2d, ticker);
-
+		draw(g2d,((double)ticker/(double)MAX_TICKER));
+		
+//		generateList(ticker);
+//
+//		drawList(g2d, ticker);
+//
+//		List<LineDrawer> lastList = (List<LineDrawer>) getLast(listDrawers);
+//		LineDrawer lastDrawer = (LineDrawer) getLast(lastList);
+//		
+//		path.add(lastDrawer.getShape(ticker));
+//
+//		drawPath(g2d);
+	}
+	
+	public void draw(Graphics2D g2d, double bezierCoeficient) throws IllegalArgumentException {
+		generateList(bezierCoeficient);
+		
+		drawList(g2d, bezierCoeficient);
+		
 		List<LineDrawer> lastList = (List<LineDrawer>) getLast(listDrawers);
 		LineDrawer lastDrawer = (LineDrawer) getLast(lastList);
 		
-		path.add(lastDrawer.getShape(ticker));
-
+		path.add(lastDrawer.getShape(bezierCoeficient));
+		
 		drawPath(g2d);
 	}
 	
@@ -148,6 +176,17 @@ public class BezierDrawer implements Drawer {
 			g2d.setColor(pallete.get(cont++%7));
 			for (LineDrawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, ticker);
+			}
+		}
+		g2d.setColor(Color.BLACK);
+	}
+	
+	private void drawList(Graphics2D g2d, double bezierCoeficient) {
+		int cont = 0;
+		for (List<LineDrawer> drawers : listDrawers) {
+			g2d.setColor(pallete.get(cont++%pallete.size()));
+			for (LineDrawer lineDrawer : drawers) {
+				lineDrawer.draw(g2d, bezierCoeficient);
 			}
 		}
 		g2d.setColor(Color.BLACK);

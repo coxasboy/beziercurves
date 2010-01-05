@@ -27,5 +27,11 @@ public class SceneryDrawer implements Drawer{
 		g2d.draw(new Line2D.Double(0,0,0,maxHeight));
 		g2d.draw(new Rectangle(maxWidht/2,maxHeight/2,1,1));
 	}
+
+	@Override
+	public void draw(Graphics2D g2d, double bezierCoeficient)
+			throws IllegalArgumentException {
+		draw(g2d,(int)bezierCoeficient);
+	}
 	
 }

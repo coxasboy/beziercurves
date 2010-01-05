@@ -43,9 +43,26 @@ public class LineDrawer implements Drawer{
 		this(drawerOne.getPoint(ticker), drawerTwo.getPoint(ticker));
 	}
 	
+	public LineDrawer (LineDrawer drawerOne, LineDrawer drawerTwo, double bezierCoeficient){
+		this(drawerOne.getPoint(bezierCoeficient), drawerTwo.getPoint(bezierCoeficient));
+	}
+	
 	public void draw(Graphics2D g2d, int ticker) throws IllegalArgumentException{
 		
 		Point point = getPoint(ticker);
+		
+		if(point!=null){
+			g2d.draw(new Line2D.Double(
+					new Point2D.Double(start.getX(), start.getY()),
+					new Point2D.Double(end.getX(), end.getY())
+			));			
+		 	g2d.draw(new Rectangle((int)point.getX(),(int)point.getY(),5,5));
+		}
+	}
+	
+	public void draw(Graphics2D g2d, double bezierCoeficient) throws IllegalArgumentException{
+		
+		Point point = getPoint(bezierCoeficient);
 		
 		if(point!=null){
 			g2d.draw(new Line2D.Double(
@@ -61,23 +78,22 @@ public class LineDrawer implements Drawer{
 		return getShape(point);
 	}
 	
-	private Shape getShape(Point point){
-//		if(defaultShape.equals(Rectangle.class.getClass())){
-//			return new Rectangle((int)point.getX(),(int)point.getY(),1,1);
-//		}
-//		else 
-		if(true){
-			return new Ellipse2D.Double(point.getX(), point.getY(), 1, 1);
-		}
-		else{
-			return null;
-		}
+	public Shape getShape(double bezierCoeficient){
+		Point point = getPoint(bezierCoeficient);
+		return getShape(point);
 	}
 	
-	
+	private Shape getShape(Point point){
+		return new Ellipse2D.Double(point.getX(), point.getY(), 1, 1);
+	}
 	
 	public Point getPoint(int ticker){
 		Point point = lineWalker.getPoint(start, end, ticker);
+		return point;
+	}
+	
+	public Point getPoint(double bezierCoeficient){
+		Point point = lineWalker.getPoint(start, end, bezierCoeficient);
 		return point;
 	}
 	

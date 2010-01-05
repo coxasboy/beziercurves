@@ -33,6 +33,30 @@ public class LineWalker {
 		}
 	}
 	
+	public Point getPoint(Point start, Point end, double bezierCoeficient) throws IllegalArgumentException{
+		Double hipotenusa = getHipotenusa(start, end);
+		
+		if(start==null || end==null){
+			throw new IllegalArgumentException("Point cannot be null");
+		}
+		
+		if(bezierCoeficient<0 || bezierCoeficient>1){
+			throw new IllegalArgumentException("Bad Bezier coeficient");
+		}
+		
+		Point point = new Point();
+		
+		Double xCoef = getXCoeficient(start, end);
+		Double yCoef = getYCoeficient(start, end);
+				
+		Double xValue = (xCoef * bezierCoeficient * hipotenusa) + start.getX();
+		Double yValue = (yCoef * bezierCoeficient * hipotenusa) + start.getY();
+		
+		point.setLocation(xValue, yValue);
+		
+		return point;
+	}
+	
 	public Point getPoint(Point start, Point end, int iteration) throws IllegalArgumentException{
 		if(start==null || end==null){
 			throw new IllegalArgumentException("Point cannot be null");

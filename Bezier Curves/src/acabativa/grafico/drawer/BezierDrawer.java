@@ -93,17 +93,17 @@ public class BezierDrawer implements Drawer {
 	
 	
 			
-	private List<LineDrawer> generateSubList(List<LineDrawer> drawers, int ticker){
-		int numberOfLines = drawers.size() - 1;
-		List<LineDrawer> ret = new ArrayList<LineDrawer>();
-		for (int i = 0; i < numberOfLines; i++) {
-			LineDrawer newGeneration = new LineDrawer(
-					(LineDrawer) drawers.get(i),
-					(LineDrawer) drawers.get(i+1), ticker);
-			ret.add(newGeneration);
-		}
-		return ret;
-	}
+//	private List<LineDrawer> generateSubList(List<LineDrawer> drawers, int ticker){
+//		int numberOfLines = drawers.size() - 1;
+//		List<LineDrawer> ret = new ArrayList<LineDrawer>();
+//		for (int i = 0; i < numberOfLines; i++) {
+//			LineDrawer newGeneration = new LineDrawer(
+//					(LineDrawer) drawers.get(i),
+//					(LineDrawer) drawers.get(i+1), ticker);
+//			ret.add(newGeneration);
+//		}
+//		return ret;
+//	}
 	
 	private List<LineDrawer> generateSubList(List<LineDrawer> drawers, double bezierCoeficient){
 		int numberOfLines = drawers.size() - 1;
@@ -129,24 +129,14 @@ public class BezierDrawer implements Drawer {
 		return primitives;
 	}
 
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public void draw(Graphics2D g2d, int ticker)
 			throws IllegalArgumentException {
 		draw(g2d,((double)ticker/(double)MAX_TICKER));
-		
-//		generateList(ticker);
-//
-//		drawList(g2d, ticker);
-//
-//		List<LineDrawer> lastList = (List<LineDrawer>) getLast(listDrawers);
-//		LineDrawer lastDrawer = (LineDrawer) getLast(lastList);
-//		
-//		path.add(lastDrawer.getShape(ticker));
-//
-//		drawPath(g2d);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void draw(Graphics2D g2d, double bezierCoeficient) throws IllegalArgumentException {
 		generateList(bezierCoeficient);
 		
@@ -170,6 +160,7 @@ public class BezierDrawer implements Drawer {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void drawList(Graphics2D g2d, int ticker) {
 		int cont = 0;
 		for (List<LineDrawer> drawers : listDrawers) {

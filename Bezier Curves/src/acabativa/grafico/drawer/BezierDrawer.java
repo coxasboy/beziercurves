@@ -59,6 +59,7 @@ public class BezierDrawer implements Drawer {
 		return ret;
 	}
 	
+	@SuppressWarnings("unused")
 	private void calibrate(List<LineDrawer> drawers){
 		LineDrawer smaller = getSmaller(drawers);
 		for (LineDrawer lineDrawer : drawers) {

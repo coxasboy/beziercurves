@@ -12,6 +12,8 @@ import acabativa.grafico.action.LineWalker;
 
 public class LineDrawer implements Drawer{
 
+	private static final int SHAPE_SIZE = 6;
+	
 	private Point start;
 	private Point end;
 	LineWalker lineWalker = new LineWalker(1d);
@@ -69,9 +71,17 @@ public class LineDrawer implements Drawer{
 					new Point2D.Double(start.getX(), start.getY()),
 					new Point2D.Double(end.getX(), end.getY())
 			));		
-			Shape shape = new Ellipse2D.Double((int)point.getX(),(int)point.getY(),5,5);
-		 	g2d.draw(shape);
+			
+			createAndDrawShape(g2d, point);
+			createAndDrawShape(g2d, start);
+			createAndDrawShape(g2d, end);
 		}
+	}
+	
+	private void createAndDrawShape(Graphics2D g2d, Point point){
+		Shape shape = new Ellipse2D.Double((int)point.getX()-(SHAPE_SIZE/2),(int)point.getY()-(SHAPE_SIZE/2),SHAPE_SIZE,SHAPE_SIZE);
+		g2d.fill(shape);
+//		g2d.draw(shape);
 	}
 	
 	public Shape getShape(int ticker){

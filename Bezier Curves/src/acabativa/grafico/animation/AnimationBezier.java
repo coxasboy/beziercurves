@@ -70,19 +70,25 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		Graphics2D g2d = (Graphics2D) g;
 		
 		try{
+			if(ticker==101){
+				refresh();
+			}
 			scenarieDrawer.draw(g2d, ticker);
 			bezierLineDrawer.draw(g2d, ticker);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			path.addAll(((BezierDrawer)bezierLineDrawer).getPath());
-			getNewBezierInstance();
-			ticker = 0;
-			
+			refresh();
 		}
 		
 		drawPath(g2d);		
 	}	
+	
+	private void refresh(){
+		path.addAll(((BezierDrawer)bezierLineDrawer).getPath());
+		getNewBezierInstance();
+		ticker = 0;
+	}
 
 	public void drawPath(Graphics2D g2d) {
 		for (Shape shape : path) {

@@ -34,8 +34,6 @@ public class LineWalker {
 	}
 	
 	public Point getPoint(Point start, Point end, double bezierCoeficient) throws IllegalArgumentException{
-		Double hipotenusa = getHipotenusa(start, end);
-		
 		if(start==null || end==null){
 			throw new IllegalArgumentException("Point cannot be null");
 		}
@@ -43,6 +41,8 @@ public class LineWalker {
 		if(bezierCoeficient<0 || bezierCoeficient>1){
 			throw new IllegalArgumentException("Bad Bezier coeficient");
 		}
+		
+		Double hipotenusa = getHipotenusa(start, end);
 		
 		Point point = new Point();
 		

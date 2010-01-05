@@ -112,7 +112,6 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		frame.setSize(850, 750);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-	
 	}
 
 	@Override

@@ -35,40 +35,77 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	boolean running = true;
 	boolean inFrame = true;
 	
+	int timeFrame = 30;
+	int quadrant = 1;
+	int numberOfPoints = 6;
+	
 	public AnimationBezier() {
 		getNewBezierInstance();
 		
-		timer = new Timer(50, this);
+		timer = new Timer(getTimeToWait(), this);
 		timer.setInitialDelay(200);
 		timer.start();		
 	}
 	
+	private int getTimeToWait(){
+		return 1000/timeFrame;
+	}
+	
 	private void getNewBezierInstance(){
-		Random r = new Random();
 		List<Point> points = new ArrayList<Point>();
 		
-		points.add(new Point(r.nextInt(350), 350+r.nextInt(350)));
-		points.add(new Point(r.nextInt(350), r.nextInt(350)));
-		points.add(new Point(350+r.nextInt(350), r.nextInt(350)));
-		points.add(new Point(350+r.nextInt(350), 350+r.nextInt(350)));
-		points.add(new Point(350+r.nextInt(350), 350+r.nextInt(350)));		
+		for (int i = 0; i < numberOfPoints; i++) {
+			points.add(getNewPoint());
+		}
 		
 		Collections.shuffle(points);
-		
-		bezierLineDrawer = new BezierDrawer(
-				points.get(0),
-				points.get(1),
-				points.get(2),
-				points.get(3),
-				points.get(4)
-				);
-		
+		Point[] pointsArray = new Point[points.size()];  
+		bezierLineDrawer = new BezierDrawer(points.toArray(pointsArray));
+	}
+	
+	private Point getNewPoint(){
+		Random r = new Random();
+		int x = getQuadrantX(quadrant)+ r.nextInt(MAX_WIDHT/2);
+		int y = getQuadrantY(quadrant)+ r.nextInt(MAX_HEIGHT/2);
+		Point ret = new Point(x, y);
+		quadrant++;
+		if(quadrant>4){
+			quadrant = 0;
+		}
+		return ret;
+	}
+	
+	private int getQuadrantX(int quadrant){
+		switch (quadrant) {
+		case 1:
+			return 0;
+		case 2:
+			return MAX_WIDHT/2;
+		case 3:
+			return 0;
+		case 4:
+			return MAX_WIDHT/2;
+		}
+		return 0;
+	}
+	
+	private int getQuadrantY(int quadrant){
+		switch (quadrant) {
+		case 1:
+			return 0;
+		case 2:
+			return 0;
+		case 3:
+			return MAX_HEIGHT/2;
+		case 4:
+			return MAX_HEIGHT/2;
+		}
+		return 0;
 	}
 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		
 		try{
 			if(ticker==101){
 				refresh();
@@ -109,7 +146,7 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		frame.add(animation);
 		frame.addMouseListener(animation);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(850, 750);
+		frame.setSize(MAX_WIDHT+150, MAX_HEIGHT+37);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}

@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -13,15 +15,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import acabativa.grafico.drawer.BezierDrawer;
 import acabativa.grafico.drawer.Drawer;
 import acabativa.grafico.drawer.SceneryDrawer;
 
-public class AnimationBezier extends JPanel implements ActionListener, MouseListener {
+public class AnimationBezier extends JPanel implements ActionListener, MouseListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	public static final int MAX_WIDHT = 700;
@@ -117,7 +122,6 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 			e.printStackTrace();
 			refresh();
 		}
-		
 		drawPath(g2d);		
 	}	
 	
@@ -145,12 +149,13 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		AnimationBezier animation = new AnimationBezier();
 		frame.add(animation);
 		frame.addMouseListener(animation);
+		frame.addKeyListener(animation);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(MAX_WIDHT+150, MAX_HEIGHT+37);
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		frame.setVisible(true);		
 	}
-
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(inFrame){
@@ -178,6 +183,34 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyChar() == ('+')){
+			numberOfPoints = numberOfPoints + 1;
+			System.out.println("Numero de pontos: " + numberOfPoints);
+		}
+		if(e.getKeyChar() == ('-')){
+			numberOfPoints = numberOfPoints - 1;
+			System.out.println("Numero de pontos: " + numberOfPoints);
+		}	
+		if(e.getKeyChar() == (' ')){
+			path.clear();
+			System.out.println("Limpando curvas");
+		}	
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

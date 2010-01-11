@@ -68,6 +68,14 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		bezierLineDrawer = new BezierDrawer(points.toArray(pointsArray));
 	}
 	
+	private void resetSpeed(){
+		timer.stop();
+		timer = null;
+		timer = new Timer(getTimeToWait(), this);
+		timer.setInitialDelay(200);
+		timer.start();	
+	}
+	
 	private Point getNewPoint(){
 		Random r = new Random();
 		int x = getQuadrantX(quadrant)+ r.nextInt(MAX_WIDHT/2);
@@ -201,6 +209,24 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 			path.clear();
 			System.out.println("Limpando curvas");
 		}	
+		if(e.getKeyChar() == ('x')){
+			running = true;
+			System.out.println(running?"GO!":"STOP!");
+		}	
+		if(e.getKeyChar() == ('c')){
+			running = false;
+			System.out.println(running?"GO!":"STOP!");
+		}
+		if(e.getKeyChar() == ('v')){
+			timeFrame = timeFrame + 10;
+			resetSpeed();
+			System.out.println("Nova velocidade: " + timeFrame);
+		}
+		if(e.getKeyChar() == ('z')){
+			timeFrame = timeFrame - 10;
+			resetSpeed();
+			System.out.println("Nova velocidade: " + timeFrame);
+		}
 	}
 
 	@Override

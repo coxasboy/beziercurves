@@ -29,8 +29,8 @@ import acabativa.grafico.drawer.SceneryDrawer;
 public class AnimationBezier extends JPanel implements ActionListener, MouseListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
-	public static final int MAX_WIDHT = 700;
-	public static final int MAX_HEIGHT = 700;
+	public static final int MAX_WIDHT = 500;
+	public static final int MAX_HEIGHT = 500;
 	
 	Timer timer;
 	int ticker = 0;
@@ -153,6 +153,11 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	}
 
 	public static void main(String[] args) {
+		JFrame frame = getJFrame();
+		frame.setVisible(true);		
+	}
+	
+	public static JFrame getJFrame(){
 		JFrame frame = new JFrame("Curva de Bezier");
 		AnimationBezier animation = new AnimationBezier();
 		frame.add(animation);
@@ -161,7 +166,7 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(MAX_WIDHT+150, MAX_HEIGHT+37);
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);		
+		return frame;
 	}
 	
 	@Override

@@ -15,11 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.AbstractButton;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import acabativa.grafico.drawer.BezierDrawer;
@@ -48,8 +45,11 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		getNewBezierInstance();
 		
 		timer = new Timer(getTimeToWait(), this);
-		timer.setInitialDelay(200);
-		timer.start();		
+		timer.setInitialDelay(200);	
+	}
+	
+	public void start() {
+		timer.start();
 	}
 	
 	private int getTimeToWait(){
@@ -154,7 +154,8 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 
 	public static void main(String[] args) {
 		JFrame frame = getJFrame();
-		frame.setVisible(true);		
+		frame.setVisible(true);
+		
 	}
 	
 	public static JFrame getJFrame(){
@@ -166,6 +167,8 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(MAX_WIDHT+150, MAX_HEIGHT+37);
 		frame.setLocationRelativeTo(null);
+
+		animation.start();
 		return frame;
 	}
 	
@@ -200,6 +203,23 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		
 	}
 
+	private int getTimeFrame() {
+		return timeFrame;
+	}
+	
+	/**
+	 * Sets the timeframe respecting the contract that timeFrame can't be lower than
+	 * ZERO
+	 * 
+	 * @param timeFrame
+	 */
+	private void setTimeFrame(int timeFrame) {
+		if(timeFrame <= 0)
+			throw new IllegalArgumentException("timeFrame can't be lower or equal to ZERO");
+		
+		this.timeFrame = timeFrame;
+	}
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(e.getKeyChar() == ('+')){
@@ -223,12 +243,12 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 			System.out.println(running?"GO!":"STOP!");
 		}
 		if(e.getKeyChar() == ('v')){
-			timeFrame = timeFrame + 10;
+			setTimeFrame(getTimeFrame() + 10);
 			resetSpeed();
 			System.out.println("Nova velocidade: " + timeFrame);
 		}
 		if(e.getKeyChar() == ('z')){
-			timeFrame = timeFrame - 10;
+			setTimeFrame(getTimeFrame() - 10);
 			resetSpeed();
 			System.out.println("Nova velocidade: " + timeFrame);
 		}

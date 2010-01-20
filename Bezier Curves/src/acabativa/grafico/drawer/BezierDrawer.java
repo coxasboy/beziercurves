@@ -12,8 +12,8 @@ public class BezierDrawer implements Drawer {
 	private static final int MAX_TICKER = 100;
 
 	List<Shape> path = new ArrayList<Shape>();
-	List<LinePointRunnerDrawer> primitives = new ArrayList<LinePointRunnerDrawer>();
-	List<List<LinePointRunnerDrawer>> listDrawers = new ArrayList<List<LinePointRunnerDrawer>>();
+	List<Drawer> primitives = new ArrayList<Drawer>();
+	List<List<Drawer>> listDrawers = new ArrayList<List<Drawer>>();
 	Point [] points = null;
 	List<Color> pallete = null;
 	
@@ -37,7 +37,7 @@ public class BezierDrawer implements Drawer {
 	
 	private void generateList(double bezierCoeficient){
 		listDrawers.clear();
-		List<LinePointRunnerDrawer> list = loadPrimitives(points);
+		List<Drawer> list = loadPrimitives(points);
 		listDrawers.add(list);
 		while(true){
 			list = generateSubList(list, bezierCoeficient);
@@ -106,9 +106,9 @@ public class BezierDrawer implements Drawer {
 //		return ret;
 //	}
 	
-	private List<LinePointRunnerDrawer> generateSubList(List<LinePointRunnerDrawer> drawers, double bezierCoeficient){
+	private List<Drawer> generateSubList(List<Drawer> drawers, double bezierCoeficient){
 		int numberOfLines = drawers.size() - 1;
-		List<LinePointRunnerDrawer> ret = new ArrayList<LinePointRunnerDrawer>();
+		List<Drawer> ret = new ArrayList<Drawer>();
 		for (int i = 0; i < numberOfLines; i++) {
 			LinePointRunnerDrawer newGeneration = new LinePointRunnerDrawer(
 					(LinePointRunnerDrawer) drawers.get(i),
@@ -118,10 +118,10 @@ public class BezierDrawer implements Drawer {
 		return ret;
 	}
 	
-	private List<LinePointRunnerDrawer> loadPrimitives(Point ... points){
+	private List<Drawer> loadPrimitives(Point ... points){
 		
 		if(primitives==null || primitives.size()==0){
-			primitives = new ArrayList<LinePointRunnerDrawer>();
+			primitives = new ArrayList<Drawer>();
 			int numberOfLines = points.length - 1;
 			for (int i = 0; i < numberOfLines; i++) {
 				primitives.add(new LinePointRunnerDrawer(points[i], points[i+1]));
@@ -164,9 +164,9 @@ public class BezierDrawer implements Drawer {
 	@SuppressWarnings("unused")
 	private void drawList(Graphics2D g2d, int ticker) {
 		int cont = 0;
-		for (List<LinePointRunnerDrawer> drawers : listDrawers) {
+		for (List<Drawer> drawers : listDrawers) {
 			g2d.setColor(pallete.get(cont++%7));
-			for (LinePointRunnerDrawer lineDrawer : drawers) {
+			for (Drawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, ticker);
 			}
 		}
@@ -175,9 +175,9 @@ public class BezierDrawer implements Drawer {
 	
 	private void drawList(Graphics2D g2d, double bezierCoeficient) {
 		int cont = 0;
-		for (List<LinePointRunnerDrawer> drawers : listDrawers) {
+		for (List<Drawer> drawers : listDrawers) {
 			g2d.setColor(pallete.get(cont++%pallete.size()));
-			for (LinePointRunnerDrawer lineDrawer : drawers) {
+			for (Drawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, bezierCoeficient);
 			}
 		}

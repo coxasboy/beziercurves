@@ -15,7 +15,7 @@ public class LineGrowDrawer implements LineDrawer{
 	
 	private Point start;
 	private Point end;
-	LineWalker lineWalker = new LineWalker(1d);
+	LineWalker lineWalker = new LineWalker(5d);
 	@SuppressWarnings("unused")
 	private Class<?> defaultShape = Ellipse2D.class.getClass();
 		
@@ -56,8 +56,9 @@ public class LineGrowDrawer implements LineDrawer{
 			g2d.draw(new Line2D.Double(
 					new Point2D.Double(start.getX(), start.getY()),
 					new Point2D.Double(point.getX(), point.getY())
-			));			
-			
+			));	
+			createAndDrawShape(g2d, start);
+			createAndDrawShape(g2d, point);			
 		}
 	}
 	

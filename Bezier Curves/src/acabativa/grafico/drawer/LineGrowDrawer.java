@@ -2,7 +2,6 @@ package acabativa.grafico.drawer;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -10,7 +9,7 @@ import java.awt.geom.Point2D;
 
 import acabativa.grafico.action.LineWalker;
 
-public class LineGrowDrawer implements Drawer{
+public class LineGrowDrawer implements LineDrawer{
 
 	private static final int SHAPE_SIZE = 6;
 	
@@ -41,11 +40,11 @@ public class LineGrowDrawer implements Drawer{
 		return lineWalker.getPass();
 	}
 		
-	public LineGrowDrawer (LineGrowDrawer drawerOne, LineGrowDrawer drawerTwo, int ticker){
+	public LineGrowDrawer (LineDrawer drawerOne, LineDrawer drawerTwo, int ticker){
 		this(drawerOne.getPoint(ticker), drawerTwo.getPoint(ticker));
 	}
 	
-	public LineGrowDrawer (LineGrowDrawer drawerOne, LineGrowDrawer drawerTwo, double bezierCoeficient){
+	public LineGrowDrawer (LineDrawer drawerOne, LineDrawer drawerTwo, double bezierCoeficient){
 		this(drawerOne.getPoint(bezierCoeficient), drawerTwo.getPoint(bezierCoeficient));
 	}
 	

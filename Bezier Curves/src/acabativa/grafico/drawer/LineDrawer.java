@@ -16,4 +16,6 @@ public interface LineDrawer extends Drawer{
 	
 	public double getLineSize();
 	
+	public boolean existDraw(int ticker);
+	
 }

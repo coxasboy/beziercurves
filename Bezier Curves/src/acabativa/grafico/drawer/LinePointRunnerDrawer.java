@@ -106,5 +106,15 @@ public class LinePointRunnerDrawer implements LineDrawer{
 		Point point = lineWalker.getPoint(start, end, bezierCoeficient);
 		return point;
 	}
+
+	public boolean existDraw(int ticker){
+		Point point = getPoint(ticker);
+		if(point==null){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
 	
 }

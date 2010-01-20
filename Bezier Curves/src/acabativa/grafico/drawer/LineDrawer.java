@@ -58,7 +58,7 @@ public class LineDrawer implements Drawer{
 					new Point2D.Double(start.getX(), start.getY()),
 					new Point2D.Double(end.getX(), end.getY())
 			));			
-		 	g2d.draw(new Rectangle((int)point.getX(),(int)point.getY(),5,5));
+			createAndDrawShape(g2d, point);
 		}
 	}
 	

@@ -48,6 +48,16 @@ public class LineGrowDrawer implements LineDrawer{
 		this(drawerOne.getPoint(bezierCoeficient), drawerTwo.getPoint(bezierCoeficient));
 	}
 	
+	public boolean existDraw(int ticker){
+		Point point = getPoint(ticker);
+		if(point==null){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
 	public void draw(Graphics2D g2d, int ticker) throws IllegalArgumentException{
 		
 		Point point = getPoint(ticker);

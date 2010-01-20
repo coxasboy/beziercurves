@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 import acabativa.grafico.action.LineWalker;
 
-public class LineDrawer implements Drawer{
+public class LineGrowDrawer implements Drawer{
 
 	private static final int SHAPE_SIZE = 6;
 	
@@ -20,7 +20,7 @@ public class LineDrawer implements Drawer{
 	@SuppressWarnings("unused")
 	private Class<?> defaultShape = Ellipse2D.class.getClass();
 		
-	public LineDrawer(Point start, Point end) {
+	public LineGrowDrawer(Point start, Point end) {
 		super();
 		if(start==null || end==null){
 			  throw new IllegalArgumentException("Ponto nulo!");
@@ -41,11 +41,11 @@ public class LineDrawer implements Drawer{
 		return lineWalker.getPass();
 	}
 		
-	public LineDrawer (LineDrawer drawerOne, LineDrawer drawerTwo, int ticker){
+	public LineGrowDrawer (LineGrowDrawer drawerOne, LineGrowDrawer drawerTwo, int ticker){
 		this(drawerOne.getPoint(ticker), drawerTwo.getPoint(ticker));
 	}
 	
-	public LineDrawer (LineDrawer drawerOne, LineDrawer drawerTwo, double bezierCoeficient){
+	public LineGrowDrawer (LineGrowDrawer drawerOne, LineGrowDrawer drawerTwo, double bezierCoeficient){
 		this(drawerOne.getPoint(bezierCoeficient), drawerTwo.getPoint(bezierCoeficient));
 	}
 	
@@ -56,9 +56,9 @@ public class LineDrawer implements Drawer{
 		if(point!=null){
 			g2d.draw(new Line2D.Double(
 					new Point2D.Double(start.getX(), start.getY()),
-					new Point2D.Double(end.getX(), end.getY())
+					new Point2D.Double(point.getX(), point.getY())
 			));			
-			createAndDrawShape(g2d, point);
+			
 		}
 	}
 	
@@ -69,19 +69,16 @@ public class LineDrawer implements Drawer{
 		if(point!=null){
 			g2d.draw(new Line2D.Double(
 					new Point2D.Double(start.getX(), start.getY()),
-					new Point2D.Double(end.getX(), end.getY())
+					new Point2D.Double(point.getX(), point.getY())
 			));		
-			
-			createAndDrawShape(g2d, point);
 			createAndDrawShape(g2d, start);
-			createAndDrawShape(g2d, end);
+			createAndDrawShape(g2d, point);
 		}
 	}
 	
 	private void createAndDrawShape(Graphics2D g2d, Point point){
 		Shape shape = new Ellipse2D.Double((int)point.getX()-(SHAPE_SIZE/2),(int)point.getY()-(SHAPE_SIZE/2),SHAPE_SIZE,SHAPE_SIZE);
 		g2d.fill(shape);
-//		g2d.draw(shape);
 	}
 	
 	public Shape getShape(int ticker){

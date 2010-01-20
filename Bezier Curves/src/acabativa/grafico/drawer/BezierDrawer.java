@@ -12,8 +12,8 @@ public class BezierDrawer implements Drawer {
 	private static final int MAX_TICKER = 100;
 
 	List<Shape> path = new ArrayList<Shape>();
-	List<LineDrawer> primitives = new ArrayList<LineDrawer>();
-	List<List<LineDrawer>> listDrawers = new ArrayList<List<LineDrawer>>();
+	List<LinePointRunnerDrawer> primitives = new ArrayList<LinePointRunnerDrawer>();
+	List<List<LinePointRunnerDrawer>> listDrawers = new ArrayList<List<LinePointRunnerDrawer>>();
 	Point [] points = null;
 	List<Color> pallete = null;
 	
@@ -37,7 +37,7 @@ public class BezierDrawer implements Drawer {
 	
 	private void generateList(double bezierCoeficient){
 		listDrawers.clear();
-		List<LineDrawer> list = loadPrimitives(points);
+		List<LinePointRunnerDrawer> list = loadPrimitives(points);
 		listDrawers.add(list);
 		while(true){
 			list = generateSubList(list, bezierCoeficient);
@@ -51,25 +51,25 @@ public class BezierDrawer implements Drawer {
 	}
 	
 	@SuppressWarnings("unused")
-	private List<LineDrawer> getUniqueList(List<List<LineDrawer>> listOfLists){
-		List<LineDrawer> ret = new ArrayList<LineDrawer>();
-		for (List<LineDrawer> list : listOfLists) {
+	private List<LinePointRunnerDrawer> getUniqueList(List<List<LinePointRunnerDrawer>> listOfLists){
+		List<LinePointRunnerDrawer> ret = new ArrayList<LinePointRunnerDrawer>();
+		for (List<LinePointRunnerDrawer> list : listOfLists) {
 			ret.addAll(list);
 		}
 		return ret;
 	}
 	
 	@SuppressWarnings("unused")
-	private void calibrate(List<LineDrawer> drawers){
-		LineDrawer smaller = getSmaller(drawers);
-		for (LineDrawer lineDrawer : drawers) {
+	private void calibrate(List<LinePointRunnerDrawer> drawers){
+		LinePointRunnerDrawer smaller = getSmaller(drawers);
+		for (LinePointRunnerDrawer lineDrawer : drawers) {
 			lineDrawer.setPass(lineDrawer.getLineSize()/smaller.getLineSize());
 		}
 	}
 	
-	private LineDrawer getSmaller(List<LineDrawer> list){
-		LineDrawer smaller = null;
-		for (LineDrawer lineDrawer : list) {
+	private LinePointRunnerDrawer getSmaller(List<LinePointRunnerDrawer> list){
+		LinePointRunnerDrawer smaller = null;
+		for (LinePointRunnerDrawer lineDrawer : list) {
 			if(smaller==null || lineDrawer.getLineSize()<smaller.getLineSize()){
 				smaller = lineDrawer;
 			}
@@ -78,9 +78,9 @@ public class BezierDrawer implements Drawer {
 	}
 	
 	@SuppressWarnings("unused")
-	private LineDrawer getBigger(List<LineDrawer> list){
-		LineDrawer bigger = null;
-		for (LineDrawer lineDrawer : list) {
+	private LinePointRunnerDrawer getBigger(List<LinePointRunnerDrawer> list){
+		LinePointRunnerDrawer bigger = null;
+		for (LinePointRunnerDrawer lineDrawer : list) {
 			if(bigger==null || lineDrawer.getLineSize()>bigger.getLineSize()){
 				bigger = lineDrawer;
 			}
@@ -106,25 +106,25 @@ public class BezierDrawer implements Drawer {
 //		return ret;
 //	}
 	
-	private List<LineDrawer> generateSubList(List<LineDrawer> drawers, double bezierCoeficient){
+	private List<LinePointRunnerDrawer> generateSubList(List<LinePointRunnerDrawer> drawers, double bezierCoeficient){
 		int numberOfLines = drawers.size() - 1;
-		List<LineDrawer> ret = new ArrayList<LineDrawer>();
+		List<LinePointRunnerDrawer> ret = new ArrayList<LinePointRunnerDrawer>();
 		for (int i = 0; i < numberOfLines; i++) {
-			LineDrawer newGeneration = new LineDrawer(
-					(LineDrawer) drawers.get(i),
-					(LineDrawer) drawers.get(i+1), bezierCoeficient);
+			LinePointRunnerDrawer newGeneration = new LinePointRunnerDrawer(
+					(LinePointRunnerDrawer) drawers.get(i),
+					(LinePointRunnerDrawer) drawers.get(i+1), bezierCoeficient);
 			ret.add(newGeneration);
 		}
 		return ret;
 	}
 	
-	private List<LineDrawer> loadPrimitives(Point ... points){
+	private List<LinePointRunnerDrawer> loadPrimitives(Point ... points){
 		
 		if(primitives==null || primitives.size()==0){
-			primitives = new ArrayList<LineDrawer>();
+			primitives = new ArrayList<LinePointRunnerDrawer>();
 			int numberOfLines = points.length - 1;
 			for (int i = 0; i < numberOfLines; i++) {
-				primitives.add(new LineDrawer(points[i], points[i+1]));
+				primitives.add(new LinePointRunnerDrawer(points[i], points[i+1]));
 			}
 		}
 		return primitives;
@@ -143,8 +143,8 @@ public class BezierDrawer implements Drawer {
 		
 		drawList(g2d, bezierCoeficient);
 		
-		List<LineDrawer> lastList = (List<LineDrawer>) getLast(listDrawers);
-		LineDrawer lastDrawer = (LineDrawer) getLast(lastList);
+		List<LinePointRunnerDrawer> lastList = (List<LinePointRunnerDrawer>) getLast(listDrawers);
+		LinePointRunnerDrawer lastDrawer = (LinePointRunnerDrawer) getLast(lastList);
 		
 		path.add(lastDrawer.getShape(bezierCoeficient));
 		
@@ -164,9 +164,9 @@ public class BezierDrawer implements Drawer {
 	@SuppressWarnings("unused")
 	private void drawList(Graphics2D g2d, int ticker) {
 		int cont = 0;
-		for (List<LineDrawer> drawers : listDrawers) {
+		for (List<LinePointRunnerDrawer> drawers : listDrawers) {
 			g2d.setColor(pallete.get(cont++%7));
-			for (LineDrawer lineDrawer : drawers) {
+			for (LinePointRunnerDrawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, ticker);
 			}
 		}
@@ -175,9 +175,9 @@ public class BezierDrawer implements Drawer {
 	
 	private void drawList(Graphics2D g2d, double bezierCoeficient) {
 		int cont = 0;
-		for (List<LineDrawer> drawers : listDrawers) {
+		for (List<LinePointRunnerDrawer> drawers : listDrawers) {
 			g2d.setColor(pallete.get(cont++%pallete.size()));
-			for (LineDrawer lineDrawer : drawers) {
+			for (LinePointRunnerDrawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, bezierCoeficient);
 			}
 		}

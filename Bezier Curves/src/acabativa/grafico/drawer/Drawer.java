@@ -7,4 +7,5 @@ public interface Drawer {
 	public void draw(Graphics2D g2d, int ticker) throws IllegalArgumentException;
 	
 	public void draw(Graphics2D g2d, double bezierCoeficient) throws IllegalArgumentException;
+	
 }

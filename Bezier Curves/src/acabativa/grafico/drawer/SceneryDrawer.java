@@ -33,5 +33,5 @@ public class SceneryDrawer implements Drawer{
 			throws IllegalArgumentException {
 		draw(g2d,(int)bezierCoeficient);
 	}
-	
+
 }

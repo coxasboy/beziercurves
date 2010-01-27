@@ -121,7 +121,7 @@ public class LineWalker {
 		return catetoOposto/hipotenusa;
 	}
 	
-	public Double getHipotenusa(Point start, Point end){
+	public static Double getHipotenusa(Point start, Point end){
 		double catetoAdjacente = 0; 
 		
 		catetoAdjacente = -start.getX()+end.getX();

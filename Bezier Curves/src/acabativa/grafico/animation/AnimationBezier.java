@@ -22,6 +22,7 @@ import javax.swing.Timer;
 import acabativa.grafico.drawer.BezierDrawer;
 import acabativa.grafico.drawer.Drawer;
 import acabativa.grafico.drawer.SceneryDrawer;
+import acabativa.music.Player;
 
 public class AnimationBezier extends JPanel implements ActionListener, MouseListener, KeyListener {
 
@@ -40,6 +41,10 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 	int timeFrame = 30;
 	int quadrant = 1;
 	int numberOfPoints = 6;
+	static Player player = new Player();
+	static{
+		player.initialize();
+	}
 	
 	public AnimationBezier() {
 		getNewBezierInstance();
@@ -65,7 +70,8 @@ public class AnimationBezier extends JPanel implements ActionListener, MouseList
 		
 		Collections.shuffle(points);
 		Point[] pointsArray = new Point[points.size()];  
-		bezierLineDrawer = new BezierDrawer(points.toArray(pointsArray));
+		
+		bezierLineDrawer = new BezierDrawer(player,points.toArray(pointsArray));
 	}
 	
 	private void resetSpeed(){

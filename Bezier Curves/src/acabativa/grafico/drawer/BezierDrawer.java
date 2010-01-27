@@ -7,6 +7,8 @@ import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.List;
 
+import acabativa.music.Player;
+
 public class BezierDrawer implements Drawer {
 	
 	private static final int MAX_TICKER = 100;
@@ -16,6 +18,8 @@ public class BezierDrawer implements Drawer {
 	List<List<Drawer>> listDrawers = new ArrayList<List<Drawer>>();
 	Point [] points = null;
 	List<Color> pallete = null;
+	int lastNote = 0;
+	int testCont = 0;
 	
 	{
 		pallete = new ArrayList<Color>();
@@ -30,9 +34,16 @@ public class BezierDrawer implements Drawer {
 
 	int maxWidht = 0;
 	int maxHeight = 0;
+	Player player = null;
 	
 	public BezierDrawer(Point ... points){
 		this.points = points;		
+	}
+	
+	public BezierDrawer(Player player, Point ... points){
+		this.points = points;
+		this.player = player;
+		player.endNotes();
 	}
 	
 	private void generateList(double bezierCoeficient){
@@ -124,12 +135,23 @@ public class BezierDrawer implements Drawer {
 	private void drawList(Graphics2D g2d, double bezierCoeficient) {
 		int cont = 0;
 		for (List<Drawer> drawers : listDrawers) {
-			g2d.setColor(pallete.get(cont++%pallete.size()));
+			g2d.setColor(pallete.get(cont%pallete.size()));
 			for (Drawer lineDrawer : drawers) {
 				lineDrawer.draw(g2d, bezierCoeficient);
 			}
+			cont++;
 		}
+		if(player!=null && testCont%5==0){
+			LineDrawer lineD = (LineDrawer) listDrawers.get(listDrawers.size()-1).get(0);
+			Point p = lineD.getPoint(bezierCoeficient);
+			player.stop(lastNote);
+			lastNote = ((int)p.getX()/5+(int)p.getY()/5)/2;
+			player.play(lastNote);
+		}
+		testCont++;
 		g2d.setColor(Color.BLACK);
 	}
+	
+	
 	
 }
